@@ -1,3 +1,6 @@
+#ifndef WEIGHTS_HPP
+#define WEIGHTS_HPP
+
 class Weights {
     public:
         Weights() = delete;
@@ -9,3 +12,5 @@ class Weights {
         float* weights;
         float* gradients;
 };
+
+#endif
