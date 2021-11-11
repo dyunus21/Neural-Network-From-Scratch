@@ -19,4 +19,27 @@ int Weights::getSize() {
     return size;
 }
 
+/**
+ * Applies a weight in the forward direction
+ * 
+ * @param n1 
+ * @param n2 
+ * @param idx 
+ */
+void Weights::forward_apply(Node* n1, Node* n2, int idx) {
+    n2->value += n1->value * weights[idx];
+}
+
+/**
+ * Propagates gradient backward
+ * 
+ * @param n1 
+ * @param n2 
+ * @param idx 
+ */
+void Weights::reverse_apply(Node* n1, Node* n2, int idx) {
+    gradients[idx] += n2->gradient * n1->value;
+    n1->gradient += n2->gradient * weights[idx];
+}
+
 // TODO
