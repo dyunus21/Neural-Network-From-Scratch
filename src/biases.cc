@@ -6,7 +6,7 @@
  * @param size the number of biases
  */
 Biases::Biases(int size) : size(size) {
-    weights = new float[size];
+    biases = new float[size];
     gradients = new float[size];
 }
 
