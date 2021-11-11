@@ -12,8 +12,13 @@ class Weights {
         Weights() = delete;
         Weights(int size);
         int getSize();
+        
         void forward_apply(Node* n1, Node* n2, int idx);
         void reverse_apply(Node* n1, Node* n2, int idx);
+
+        void randomize();
+        void applyGradients();
+        void clearGradients();
     
     private:
         int size;

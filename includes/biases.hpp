@@ -12,8 +12,13 @@ class Biases {
         Biases() = delete;
         Biases(int size);
         int getSize();
+        
         void forward_apply(Node* n, int idx);
         void reverse_apply(Node* n, int idx);
+
+        void randomize();
+        void applyGradients();
+        void clearGradients();
     
     private:
         int size;
