@@ -1,5 +1,5 @@
-#ifndef WEIGHTS_HPP
-#define WEIGHTS_HPP
+#ifndef BIASES_HPP
+#define BIASES_HPP
 
 #include "node.hpp"
 
@@ -12,7 +12,7 @@ class Biases {
         Biases() = delete;
         Biases(int size);
         int getSize();
-        
+
         void forward_apply(Node* n, int idx);
         void reverse_apply(Node* n, int idx);
 
