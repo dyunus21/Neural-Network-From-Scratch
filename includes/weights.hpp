@@ -4,7 +4,8 @@
 #include "node.hpp"
 
 /**
- * Stores the weights, biases, and gradients as one-dimensional arrays
+ * Handles weights and gradients
+ * Weights and gradients are stored as one-dimensional arrays
  */
 class Weights {
     public:
