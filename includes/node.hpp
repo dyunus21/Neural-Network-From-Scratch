@@ -3,6 +3,7 @@
 
 /**
  * Represents a node in a neural network
+ * Stores both activation and gradient
  */
 struct Node {
     /// The activation or value of the node
