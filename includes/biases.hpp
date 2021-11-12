@@ -8,22 +8,23 @@
  * Biases and gradients are stored as one-dimensional arrays
  */
 class Biases {
-    public:
-        Biases() = delete;
-        Biases(int size);
-        int getSize();
+public:
+  Biases() = delete;
+  Biases(int size);
+  ~Biases();
+  int getSize();
 
-        void forward_apply(Node* n, int idx);
-        void reverse_apply(Node* n, int idx);
+  void forward_apply(Node* n, int idx);
+  void reverse_apply(Node* n, int idx);
 
-        void randomize();
-        void applyGradients();
-        void clearGradients();
-    
-    private:
-        int size;
-        float* biases;
-        float* gradients;
+  void randomize();
+  void applyGradients();
+  void clearGradients();
+
+private:
+  int size;
+  float* biases;
+  float* gradients;
 };
 
 #endif

@@ -1,5 +1,9 @@
 #include "layer.hpp"
 
+Layer::~Layer(){
+    delete[] nodes;
+}
+
 const std::vector<Layer*>& Layer::getDependencies() const {
     return dependencies;
 }
