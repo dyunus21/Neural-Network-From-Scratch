@@ -2,14 +2,11 @@
 #define ACTIVATION_HPP
 
 #include "node.hpp"
-#include "weights.hpp"
-#include "biases.hpp"
 #include <vector>
-enum class activationFunction{Relu};
 
-
-//other functions
-
-void activate(enum activationFunction, std::vector<Node*> nodes, int length);
+namespace Activation {
+    enum class ActivationFunction{relu};
+    void activate(ActivationFunction activationFunction, std::vector<Node*> nodes, int length);
+}
 
 #endif
