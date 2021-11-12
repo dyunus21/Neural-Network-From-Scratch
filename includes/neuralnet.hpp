@@ -1,7 +1,7 @@
 #ifndef NEURALNET_HPP
 #define NEURALNET_HPP
 
-#include <layer.hpp>
+#include "layer.hpp"
 #include <vector>
 
 /**
