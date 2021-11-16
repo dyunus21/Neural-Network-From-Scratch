@@ -1,5 +1,7 @@
 #include "weights.hpp"
 
+#include <cstdlib>
+
 /**
  * Initializes size, weights, and gradients
  *
@@ -46,3 +48,16 @@ void Weights::reverse_apply(Node* n1, Node* n2, int idx) {
 }
 
 // TODO
+
+void Weights::randomize() {
+  for (int i = 0; i < size; i++) {
+    weights[i] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+    // TODO decide random range for biases
+  }
+}
+
+void Weights::clearGradients() {
+  for (int i = 0; i < size; i++) {
+    gradients[i] = 0;
+  }
+}
