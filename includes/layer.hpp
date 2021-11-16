@@ -12,20 +12,18 @@
  */
 class Layer {
 public:
+  Layer() = delete;
+  Layer(int size);
   virtual ~Layer();
   virtual void forward_propagate() = 0;
   virtual void backward_propagate() = 0;
 
-  const std::vector<Layer*>& getDependencies() const;
-  std::vector<int> getShape() const;
   const Node* getNodes() const;
+  std::vector<int> getShape() const;
 
 protected:
-  std::vector<Layer*> dependencies;
-  std::vector<int> shape;
-  Weights weights;
-  Biases biases;
   Node* nodes;
+  std::vector<int> shape;
 };
 
 #endif

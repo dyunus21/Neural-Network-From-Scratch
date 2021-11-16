@@ -1,10 +1,13 @@
 #include "denselayer.hpp"
 
 // TODO
-DenseLayer::DenseLayer(int size): weights{Weights(0)}, biases{Biases(0)} {
-  shape.push_back(size);
-  nodes = new Node[size];
-  for (int i = 0; i < size; i++) {
-    nodes[i] = {0, 0};
-  }
+DenseLayer::DenseLayer(int size, Layer* previous):
+    Layer(size),
+    weights{Weights(previous->getShape()[0] * size)},
+    biases{Biases(size)} {
+  dependencies.push_back(previous);
+}
+
+const std::vector<Layer*>& DenseLayer::getDependencies() const {
+  return dependencies;
 }

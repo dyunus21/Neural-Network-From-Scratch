@@ -6,7 +6,7 @@
 #include "layer.hpp"
 
 /**
- * Represents an input layer of a neural network
+ * Represents a 1D input layer of a neural network
  */
 class InputLayer : public Layer {
 public:

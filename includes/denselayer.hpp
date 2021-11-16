@@ -11,9 +11,15 @@
 class DenseLayer : public Layer {
 public:
   DenseLayer() = delete;
-  DenseLayer(int size);
+  DenseLayer(int size, Layer* previous);
   void forward_propagate();
   void backward_propagate();
+  const std::vector<Layer*>& getDependencies() const;
+
+private:
+  std::vector<Layer*> dependencies;
+  Weights weights;
+  Biases biases;
 };
 
 #endif

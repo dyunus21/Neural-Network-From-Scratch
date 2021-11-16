@@ -1,17 +1,12 @@
 #include "layer.hpp"
 
-Layer::~Layer(){
-    delete[] nodes;
+Layer::Layer(int size) {
+  nodes = new Node[size];
+  shape.push_back(size);
 }
 
-const std::vector<Layer*>& Layer::getDependencies() const {
-    return dependencies;
-}
+Layer::~Layer() { delete[] nodes; }
 
-std::vector<int> Layer::getShape() const {
-    return shape;
-}
+const Node* Layer::getNodes() const { return nodes; }
 
-const Node* Layer::getNodes() const {
-    return nodes;
-}
+std::vector<int> Layer::getShape() const { return shape; }
