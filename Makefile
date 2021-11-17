@@ -26,4 +26,4 @@ bin/tests: tests/tests.cc tests/catch.hpp $(SOURCES) $(INCLUDES)
 .PHONY: clean exec debug tests
 
 clean:
-	rm -rf bin/*
+	rm -rf bin/* obj/*

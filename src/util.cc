@@ -9,10 +9,10 @@ float Util::loss(std::vector<Node*> expected, std::vector<Node*> actual) {
     throw std::runtime_error(
         "Loss function needs identical dimensional layers");
   }
-
   float loss = 0;
-  for (int i = 0; i < expected.size(); i++) {
-    loss += pow(expected.at(i)->value - actual.at(i)->value, 2);
+  for(size_t i = 0;i<expected.size();i++)
+  {
+    loss+= pow(expected.at(i)->value - actual.at(i)->value, 2);
   }
   return loss;
 }

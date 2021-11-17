@@ -1,8 +1,9 @@
 #ifndef NEURALNET_HPP
 #define NEURALNET_HPP
 
-#include "layer.hpp"
 #include <vector>
+
+#include "layer.hpp"
 
 /**
  *
@@ -11,6 +12,7 @@
 class NeuralNet {
 public:
   NeuralNet() = delete;
+  NeuralNet(Layer* input, Layer* output);
   void train();
 
 private:
