@@ -31,7 +31,7 @@ int Weights::getSize() { return size; }
  * @param n2
  * @param idx
  */
-void Weights::forward_apply(const Node* n1, Node* n2, int idx) {
+void Weights::forward_apply(Node* n1, Node* n2, int idx) {
   n2->value += n1->value * weights[idx];
 }
 

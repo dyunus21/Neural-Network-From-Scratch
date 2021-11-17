@@ -18,7 +18,7 @@ public:
   virtual void forward_propagate() = 0;
   virtual void backward_propagate() = 0;
 
-  const Node* getNodes() const;
+  Node* getNodes();
   std::vector<int> getShape() const;
 
 protected:

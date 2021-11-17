@@ -14,7 +14,7 @@ public:
   ~Weights();
   int getSize();
 
-  void forward_apply(const Node* n1, Node* n2, int idx);
+  void forward_apply(Node* n1, Node* n2, int idx);
   void reverse_apply(Node* n1, Node* n2, int idx);
 
   void randomize();

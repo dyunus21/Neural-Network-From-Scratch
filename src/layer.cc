@@ -7,6 +7,6 @@ Layer::Layer(int size) {
 
 Layer::~Layer() { delete[] nodes; }
 
-const Node* Layer::getNodes() const { return nodes; }
+Node* Layer::getNodes() { return nodes; }
 
 std::vector<int> Layer::getShape() const { return shape; }
