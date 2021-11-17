@@ -60,3 +60,9 @@ void Weights::clearGradients() {
     gradients[i] = 0;
   }
 }
+
+void Weights::applyGradients() {
+  for (int i = 0; i < size; i++) {
+    weights[i] += gradients[i];
+  }
+}
