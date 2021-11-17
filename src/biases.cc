@@ -56,3 +56,9 @@ void Biases::clearGradients() {
     gradients[i] = 0;
   }
 }
+
+void Biases::applyGradients() {
+  for (int i = 0; i < size; i++) {
+    biases[i] += gradients[i];
+  }
+}
