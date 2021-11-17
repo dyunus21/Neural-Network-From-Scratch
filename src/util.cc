@@ -16,3 +16,22 @@ float Util::loss(std::vector<Node*> expected, std::vector<Node*> actual) {
   }
   return loss;
 }
+void Util::activate(ActivationFunction activationFunction, std::vector<Node*> nodes, int length)
+{
+  if(activationFunction == ActivationFunction::relu)
+  {
+    for(size_t i = 0;i<nodes.size();i++)
+    {
+      nodes[i]->value = relu(nodes[i]->value);
+      
+    }
+  }
+}
+float Util::relu(float x)
+{
+  if(x>0.0)
+  {
+    return x;
+  }
+  return 0.0;
+}
