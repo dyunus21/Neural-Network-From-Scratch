@@ -1,6 +1,7 @@
 #include "biases.hpp"
 
 #include <cstdlib>
+#include <cstring>
 
 /**
  * Initializes size, biases, and gradients
@@ -51,11 +52,7 @@ void Biases::randomize() {
   }
 }
 
-void Biases::clearGradients() {
-  for (int i = 0; i < size; i++) {
-    gradients[i] = 0;
-  }
-}
+void Biases::clearGradients() { std::memset(gradients, 0, size); }
 
 void Biases::applyGradients() {
   for (int i = 0; i < size; i++) {
