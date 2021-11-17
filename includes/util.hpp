@@ -6,7 +6,7 @@
 #include "node.hpp"
 
 namespace Util {
-  enum class ActivationFunction { none, relu };
+  enum class ActivationFunction { none, relu, softmax };
   void activate(ActivationFunction activationFunction,
                 std::vector<Node*> nodes,
                 int length);
