@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include<fstream>
-#include<sstream>
 #include <stdexcept>
 #include "neuralnet.hpp"
 
@@ -11,8 +10,8 @@ int main() {
     // std::cout << "Test" << std::endl;
     typedef unsigned char uchar;
     int numLabels = 10000;
-    uchar* dataset = read_mnist_labels("/home/vagrant/src/final-project-labgroup41/tests/datasets/t10k-labels-idx1-ubyte", numLabels);
-    std::cout<<dataset[0];
+    uchar* dataset = read_mnist_labels("tests/datasets/t10k-labels-idx1-ubyte", numLabels);
+    std::cout<<int(dataset[1]);
 }
 
 typedef unsigned char uchar;
@@ -40,7 +39,6 @@ uchar* read_mnist_labels(std::string full_path, int& number_of_labels) {
         uchar* _dataset = new uchar[number_of_labels];
         for(int i = 0; i < number_of_labels; i++) {
             file.read((char*)&_dataset[i], 1);
-            // std::cout<<_dataset[i];
         }
         return _dataset;
     } else {
