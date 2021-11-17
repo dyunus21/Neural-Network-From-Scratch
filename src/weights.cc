@@ -49,10 +49,9 @@ void Weights::reverse_apply(Node* n1, Node* n2, int idx) {
 
 // TODO
 
-void Weights::randomize() {
-  for (int i = 0; i < size; i++) {
-    weights[i] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-    // TODO decide random range for biases
+void Weights::initialize(Util::Initializer initializer, int fan_in, int fan_out)  {
+  for (int i=0; i<size; i++) {
+    weights[i] = Util::initialize(initializer, fan_in, fan_out);
   }
 }
 

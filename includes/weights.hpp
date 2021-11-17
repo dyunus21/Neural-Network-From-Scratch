@@ -2,6 +2,7 @@
 #define WEIGHTS_HPP
 
 #include "node.hpp"
+#include "util.hpp"
 
 /**
  * Handles weights and gradients
@@ -17,7 +18,7 @@ public:
   void forward_apply(Node* n1, Node* n2, int idx);
   void reverse_apply(Node* n1, Node* n2, int idx);
 
-  void randomize();
+  void initialize(Util::Initializer initializer, int fan_in, int fan_out);
   void applyGradients();
   void clearGradients();
 
