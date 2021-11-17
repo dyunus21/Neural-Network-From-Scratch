@@ -10,11 +10,11 @@ exec: bin/exec
 debug: bin/debug
 tests: bin/tests
 
-bin/exec: $(SOURCES) $(INCLUDES)
+bin/exec: driver.cc $(SOURCES) $(INCLUDES)
 	$(MAKE_BIN)
 	$(CXX) $(CXX_FLAGS) driver.cc $(SOURCES) -o bin/exec
 
-bin/debug: $(SOURCES) $(INCLUDES)
+bin/debug: driver.cc $(SOURCES) $(INCLUDES)
 	$(MAKE_BIN)
 	$(CXX) $(DEBUG_FLAGS) driver.cc $(SOURCES) -o bin/debug
 
