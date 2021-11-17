@@ -8,9 +8,7 @@ DenseLayer::DenseLayer(int size, Layer* previous):
   dependencies.push_back(previous);
 }
 
-const std::vector<Layer*>& DenseLayer::getDependencies() const {
-  return dependencies;
-}
+std::vector<Layer*>& DenseLayer::getDependencies() { return dependencies; }
 
 void DenseLayer::forward_propagate() {
   // weights
@@ -30,5 +28,18 @@ void DenseLayer::forward_propagate() {
 }
 
 void DenseLayer::backward_propagate() {
-  // TODO
+  // weights
+  for (int i = 0; i < shape.at(0); i++) {  // loop thru current layer
+    for (int j = 0; j < dependencies.at(0)->getShape().at(0);
+         j++) {  // loop thru prev layer
+      weights.reverse_apply(&(dependencies.at(0)->getNodes()[j]),
+                            &nodes[i],
+                            i * dependencies.at(0)->getShape().at(0) + j);
+    }
+  }
+
+  // biases
+  for (int i = 0; i < shape.at(0); i++) {
+    biases.reverse_apply(&nodes[i], i);
+  }
 }

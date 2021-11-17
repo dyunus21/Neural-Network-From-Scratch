@@ -14,7 +14,7 @@ public:
   DenseLayer(int size, Layer* previous);
   void forward_propagate();
   void backward_propagate();
-  const std::vector<Layer*>& getDependencies() const;
+  std::vector<Layer*>& getDependencies();
 
 private:
   std::vector<Layer*> dependencies;
