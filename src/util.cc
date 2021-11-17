@@ -23,8 +23,12 @@ void Util::activate(ActivationFunction activationFunction, std::vector<Node*> no
     for(size_t i = 0;i<nodes.size();i++)
     {
       nodes[i]->value = relu(nodes[i]->value);
-      
+
     }
+  }
+  else
+  {
+    return;
   }
 }
 float Util::relu(float x)
