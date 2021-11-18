@@ -1,6 +1,8 @@
 #include "weights.hpp"
 
 #include <cstdlib>
+#include <cstring>
+
 
 /**
  * Initializes size, weights, and gradients
@@ -49,17 +51,15 @@ void Weights::reverse_apply(Node* n1, Node* n2, int idx) {
 
 // TODO
 
-void Weights::initialize(Util::Initializer initializer, int fan_in, int fan_out)  {
-  for (int i=0; i<size; i++) {
+void Weights::initialize(Util::Initializer initializer,
+                         int fan_in,
+                         int fan_out) {
+  for (int i = 0; i < size; i++) {
     weights[i] = Util::initialize(initializer, fan_in, fan_out);
   }
 }
 
-void Weights::clearGradients() {
-  for (int i = 0; i < size; i++) {
-    gradients[i] = 0;
-  }
-}
+void Weights::clearGradients() { std::memset(gradients, 0, size); }
 
 void Weights::applyGradients() {
   for (int i = 0; i < size; i++) {
