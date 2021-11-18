@@ -3,19 +3,26 @@
 #include <cstring>
 
 Layer::Layer(int size) {
-  nodes = new Node[size];
+  preActivationNodes = new Node[size];
+  postActivationNodes = new Node[size];
   shape.push_back(size);
 }
 
-Layer::~Layer() { delete[] nodes; }
+Layer::~Layer() {
+  delete[] preActivationNodes;
+  delete[] postActivationNodes;
+}
 
 void Layer::clear() {
-  std::memset(nodes, 0, getTotalSize()*sizeof(Node));
+  std::memset(preActivationNodes, 0, getTotalSize() * sizeof(Node));
+  std::memset(postActivationNodes, 0, getTotalSize() * sizeof(Node));
 }
 
 void Layer::update(Optimizer& optimizer) {}
 
-Node* Layer::getNodes() { return nodes; }
+Node* Layer::getPreActivationNodes() { return preActivationNodes; }
+
+Node* Layer::getPostActivationNodes() { return postActivationNodes; }
 
 std::vector<int> Layer::getShape() const { return shape; }
 

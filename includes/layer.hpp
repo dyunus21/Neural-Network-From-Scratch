@@ -5,8 +5,8 @@
 
 #include "biases.hpp"
 #include "node.hpp"
-#include "weights.hpp"
 #include "optimizer.hpp"
+#include "weights.hpp"
 
 /**
  * Represents a layer of a neural network
@@ -21,12 +21,14 @@ public:
   virtual void clear();
   virtual void update(Optimizer& optimizer);
 
-  Node* getNodes();
+  Node* getPreActivationNodes();
+  Node* getPostActivationNodes();
   std::vector<int> getShape() const;
   int getTotalSize() const;
 
 protected:
-  Node* nodes;
+  Node* preActivationNodes;
+  Node* postActivationNodes;
   std::vector<int> shape;
 };
 
