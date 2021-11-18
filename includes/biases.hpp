@@ -17,7 +17,6 @@ public:
   void forward_apply(Node* n, int idx);
   void reverse_apply(Node* n, int idx);
 
-  void randomize();
   void applyGradients();
   void clearGradients();
 

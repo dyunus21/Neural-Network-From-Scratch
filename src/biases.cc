@@ -45,14 +45,9 @@ void Biases::reverse_apply(Node* n, int idx) { gradients[idx] += n->gradient; }
 
 // TODO
 
-void Biases::randomize() {
-  for (int i = 0; i < size; i++) {
-    biases[i] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-    // TODO decide random range for biases
-  }
+void Biases::clearGradients() {
+  std::memset(gradients, 0, size * sizeof(float));
 }
-
-void Biases::clearGradients() { std::memset(gradients, 0, size); }
 
 void Biases::applyGradients() {
   for (int i = 0; i < size; i++) {
