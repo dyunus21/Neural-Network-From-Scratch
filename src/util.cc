@@ -4,26 +4,25 @@
 #include <stdexcept>
 
 void Util::activate(ActivationFunction activationFunction,
-                    std::vector<Node*> nodes,
-                    int length) {
+                    std::vector<Node*> nodes) {
   switch (activationFunction) {
-    case ActivationFunction::relu: {
-      for (size_t i = 0; i < nodes.size(); i++) {
-        nodes[i]->value = relu(nodes[i]->value);
-      }
-      break;
+  case ActivationFunction::relu: {
+    for (size_t i = 0; i < nodes.size(); i++) {
+      nodes[i]->value = relu(nodes[i]->value);
     }
-    case ActivationFunction::softmax: {
-      float sumOfExponentials = 0;
-      for (size_t i = 0; i < nodes.size(); i++) {
-        sumOfExponentials += exp(nodes[i]->value);
-      }
+    break;
+  }
+  case ActivationFunction::softmax: {
+    float sumOfExponentials = 0;
+    for (size_t i = 0; i < nodes.size(); i++) {
+      sumOfExponentials += exp(nodes[i]->value);
+    }
 
-      for (size_t i = 0; i < nodes.size(); i++) {
-        nodes[i]->value = exp(nodes[i]->value) / sumOfExponentials;
-      }
-      break;
+    for (size_t i = 0; i < nodes.size(); i++) {
+      nodes[i]->value = exp(nodes[i]->value) / sumOfExponentials;
     }
+    break;
+  }
   }
 }
 
@@ -48,16 +47,16 @@ float Util::relu(float x) {
 }
 
 float Util::randomFloat() {
-  return float(rand())/float((RAND_MAX)) * 2. - 1.;
+  return float(rand()) / float((RAND_MAX)) * 2. - 1.;
 }
 
 /**
  * Creates an random weight value based on a certain initialization scheme
- * 
+ *
  * @param initializer the type of initialization
  * @param fan_in The number of notes going into an output node
  * @param fan_out The number of output nodes that an input node feeds into
- * @return float 
+ * @return float
  */
 float Util::initialize(Util::Initializer initializer, int fan_in, int fan_out) {
   if (initializer == Util::Initializer::xavier)
