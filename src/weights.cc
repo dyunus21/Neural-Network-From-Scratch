@@ -58,10 +58,10 @@ void Weights::initialize(Util::Initializer initializer,
   }
 }
 
-void Weights::clearGradients() {
-  std::memset(gradients, 0, size * sizeof(float));
-}
-
 void Weights::update(Optimizer& optimizer) {
   optimizer.optimize(weights, gradients, size);
+}
+
+void Weights::clearGradients() {
+  std::memset(gradients, 0, size * sizeof(float));
 }
