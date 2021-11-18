@@ -43,7 +43,9 @@ void Biases::forward_apply(Node* n, int idx) { n->value += biases[idx]; }
  */
 void Biases::reverse_apply(Node* n, int idx) { gradients[idx] += n->gradient; }
 
-void Biases::clearGradients() { std::memset(gradients, 0, size); }
+void Biases::clearGradients() {
+  std::memset(gradients, 0, size * sizeof(float));
+}
 
 void Biases::update(Optimizer& optimizer) {
   optimizer.optimize(biases, gradients, size);

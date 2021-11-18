@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <cstring>
 
-
 /**
  * Initializes size, weights, and gradients
  *
@@ -59,7 +58,9 @@ void Weights::initialize(Util::Initializer initializer,
   }
 }
 
-void Weights::clearGradients() { std::memset(gradients, 0, size); }
+void Weights::clearGradients() {
+  std::memset(gradients, 0, size * sizeof(float));
+}
 
 void Weights::update(Optimizer& optimizer) {
   optimizer.optimize(weights, gradients, size);
