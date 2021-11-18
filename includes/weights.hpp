@@ -3,6 +3,7 @@
 
 #include "node.hpp"
 #include "util.hpp"
+#include "optimizer.hpp"
 
 /**
  * Handles weights and gradients
@@ -19,7 +20,7 @@ public:
   void reverse_apply(Node* n1, Node* n2, int idx);
 
   void initialize(Util::Initializer initializer, int fan_in, int fan_out);
-  void applyGradients();
+  void update(Optimizer& optimizer);
   void clearGradients();
 
 private:

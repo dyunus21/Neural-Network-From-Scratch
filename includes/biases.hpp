@@ -2,6 +2,7 @@
 #define BIASES_HPP
 
 #include "node.hpp"
+#include "optimizer.hpp"
 
 /**
  * Handles biases and gradients
@@ -17,8 +18,7 @@ public:
   void forward_apply(Node* n, int idx);
   void reverse_apply(Node* n, int idx);
 
-  void randomize();
-  void applyGradients();
+  void update(Optimizer& optimizer);
   void clearGradients();
 
 private:

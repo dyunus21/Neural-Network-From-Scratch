@@ -43,3 +43,8 @@ void DenseLayer::backward_propagate() {
     biases.reverse_apply(&nodes[i], i);
   }
 }
+
+void DenseLayer::update(Optimizer& optimizer) {
+  weights.update(optimizer);
+  biases.update(optimizer);
+}

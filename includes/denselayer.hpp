@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "layer.hpp"
+#include "optimizer.hpp"
 
 /**
  * Represents a dense (hidden) layer of a neural network
@@ -12,8 +13,11 @@ class DenseLayer : public Layer {
 public:
   DenseLayer() = delete;
   DenseLayer(int size, Layer* previous);
+
   void forward_propagate();
   void backward_propagate();
+  void update(Optimizer& optimizer);
+
   std::vector<Layer*>& getDependencies();
 
 private:

@@ -61,8 +61,6 @@ void Weights::initialize(Util::Initializer initializer,
 
 void Weights::clearGradients() { std::memset(gradients, 0, size); }
 
-void Weights::applyGradients() {
-  for (int i = 0; i < size; i++) {
-    weights[i] += gradients[i];
-  }
+void Weights::update(Optimizer& optimizer) {
+  optimizer.optimize(weights, gradients, size);
 }
