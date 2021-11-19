@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <stdexcept>
+#include <stdlib.h>
 
 void Util::activate(ActivationFunction activationFunction,
                     std::vector<Node*> nodes) {

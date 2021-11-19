@@ -18,6 +18,10 @@ DenseLayer::DenseLayer(int size, Layer* previous, Util::ActivationFunction a):
 
 std::vector<Layer*>& DenseLayer::getDependencies() { return dependencies; }
 
+void DenseLayer::initialize() {
+  weights.initialize(Util::Initializer::he, dependencies[0]->getTotalSize(), getTotalSize());
+}
+
 void DenseLayer::forward_propagate() {
   // weights
   for (int i = 0; i < getTotalSize(); i++) {  // loop thru current layer
