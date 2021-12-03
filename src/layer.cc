@@ -1,5 +1,6 @@
 #include "layer.hpp"
 
+#include <iostream>
 #include <cstring>
 
 Layer::Layer(int size) {
@@ -30,4 +31,16 @@ int Layer::getTotalSize() const {
   int tot = 1;
   for (int dim : shape) tot *= dim;
   return tot;
+}
+
+void Layer::printValues() const {
+  for (int i=0; i<getTotalSize(); i++) {
+    std::cout << preActivationNodes[i].value << " ";
+  }
+  std::cout << std::endl;
+
+  for (int i=0; i<getTotalSize(); i++) {
+    std::cout << postActivationNodes[i].value << " ";
+  }
+  std::cout << std::endl;
 }

@@ -16,6 +16,7 @@ public:
   DenseLayer(int size, Layer* previous);
   DenseLayer(int size, Layer* previous, Util::ActivationFunction a);
 
+  void initialize();
   void forward_propagate();
   void backward_propagate();
   void update(Optimizer& optimizer);

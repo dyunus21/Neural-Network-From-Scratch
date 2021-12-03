@@ -16,6 +16,7 @@ public:
   Layer() = delete;
   Layer(int size);
   virtual ~Layer();
+  virtual void initialize() = 0;
   virtual void forward_propagate() = 0;
   virtual void backward_propagate() = 0;
   virtual void clear();
@@ -25,6 +26,8 @@ public:
   Node* getPostActivationNodes();
   std::vector<int> getShape() const;
   int getTotalSize() const;
+
+  void printValues() const;
 
 protected:
   Node* preActivationNodes;
