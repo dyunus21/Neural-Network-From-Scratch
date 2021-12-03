@@ -4,23 +4,24 @@
 #include <stdexcept>
 #include <stdlib.h>
 
-void Util::activate(ActivationFunction activationFunction,
-                    std::vector<Node*> nodes) {
+void Util::forward_activate(ActivationFunction activationFunction, Node* preActivationNodes, Node* postActivationNodes, std::vector<int>& shape) {
+  int num_nodes = shape[0];
+  for (int i=1; i<shape.size(); i++) num_nodes *= shape[i];
   switch (activationFunction) {
   case ActivationFunction::relu: {
-    for (size_t i = 0; i < nodes.size(); i++) {
-      nodes[i]->value = relu(nodes[i]->value);
+    for (size_t i = 0; i < num_nodes; i++) {
+      postActivationNodes[i].value = preActivationNodes[i].value > 0 ? preActivationNodes[i].value : 0;
     }
     break;
   }
   case ActivationFunction::softmax: {
     float sumOfExponentials = 0;
-    for (size_t i = 0; i < nodes.size(); i++) {
-      sumOfExponentials += exp(nodes[i]->value);
+    for (size_t i = 0; i < num_nodes; i++) {
+      sumOfExponentials += exp(preActivationNodes[i].value);
     }
 
-    for (size_t i = 0; i < nodes.size(); i++) {
-      nodes[i]->value = exp(nodes[i]->value) / sumOfExponentials;
+    for (size_t i = 0; i < num_nodes; i++) {
+      postActivationNodes[i].value = exp(preActivationNodes[i].value) / sumOfExponentials;
     }
     break;
   }
@@ -63,5 +64,5 @@ float Util::initialize(Util::Initializer initializer, int fan_in, int fan_out) {
   if (initializer == Util::Initializer::xavier)
     return randomFloat() * std::sqrt(6. / float(fan_in + fan_out));
   else if (initializer == Util::Initializer::he)
-    return randomFloat() * 2. - 1. * std::sqrt(6. / float(fan_in));
+    return randomFloat() * std::sqrt(6. / float(fan_in));
 }
