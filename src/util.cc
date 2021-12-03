@@ -5,24 +5,64 @@
 #include <stdlib.h>
 
 void Util::forward_activate(ActivationFunction activationFunction, Node* preActivationNodes, Node* postActivationNodes, std::vector<int>& shape) {
-  int num_nodes = shape[0];
-  for (int i=1; i<shape.size(); i++) num_nodes *= shape[i];
+  int numNodes = shape[0];
+  for (int i=1; i<shape.size(); i++) numNodes *= shape[i];
   switch (activationFunction) {
+  case ActivationFunction::none: {
+    for (size_t i = 0; i < numNodes; i++) {
+      postActivationNodes[i].value = preActivationNodes[i].value;
+    }
+    break;
+  }
   case ActivationFunction::relu: {
-    for (size_t i = 0; i < num_nodes; i++) {
+    for (size_t i = 0; i < numNodes; i++) {
       postActivationNodes[i].value = preActivationNodes[i].value > 0 ? preActivationNodes[i].value : 0;
     }
     break;
   }
   case ActivationFunction::softmax: {
     float sumOfExponentials = 0;
-    for (size_t i = 0; i < num_nodes; i++) {
-      sumOfExponentials += exp(preActivationNodes[i].value);
+    for (size_t i = 0; i < numNodes; i++) {
+      postActivationNodes[i].value = exp(preActivationNodes[i].value);
+      sumOfExponentials += postActivationNodes[i].value;
     }
 
-    for (size_t i = 0; i < num_nodes; i++) {
-      postActivationNodes[i].value = exp(preActivationNodes[i].value) / sumOfExponentials;
+    for (size_t i = 0; i < numNodes; i++) {
+      postActivationNodes[i].value /= sumOfExponentials;
     }
+    break;
+  }
+  }
+}
+
+void Util::backward_activate(ActivationFunction activationFunction, Node* preActivationNodes, Node* postActivationNodes, std::vector<int>& shape) {
+  int numNodes = shape[0];
+  for (int i=1; i<shape.size(); i++) numNodes *= shape[i];
+  switch (activationFunction) {
+  case ActivationFunction::none: {
+    for (size_t i = 0; i < numNodes; i++) {
+      postActivationNodes[i].gradient = postActivationNodes[i].gradient;
+    }
+    break;
+  }
+  case ActivationFunction::relu: {
+    for (size_t i = 0; i < numNodes; i++) {
+      preActivationNodes[i].gradient = preActivationNodes[i].value > 0 ? postActivationNodes[i].gradient : 0;
+    }
+    break;
+  }
+  case ActivationFunction::softmax: { // It took me a while to work out the math for this
+    for (size_t i = 0; i < numNodes; i++) {
+      for (size_t j = 0; j < numNodes; i++) {
+        if (i == j) {
+          preActivationNodes[i].gradient += postActivationNodes[j].gradient * postActivationNodes[j].value * (1. - postActivationNodes[i].value);
+        }
+        else {
+          preActivationNodes[i].gradient -= postActivationNodes[j].gradient * postActivationNodes[i].value * postActivationNodes[j].value;
+        }
+      }
+    }
+
     break;
   }
   }
