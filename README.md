@@ -6,14 +6,14 @@ Many of the aformentioned parts will be worked on by multiple people at once. We
 
 We currently do not plan to use any third-party libraries, though this is subject to change.
 
-#####How to build the project:
+##### How to build the project:
 
 We made a Makefile which makes this process simple. Simply run `make exec` in this repo's directory in the command line to build the executable.
 
-#####How to use the resultant application:
+##### How to use the resultant application:
 
 Now that you have the executable, simply run `./bin/exec` in this repo's directory to run the driver code.
 
-#####How to run the tests:
+##### How to run the tests:
 
 The tests are created and ran using a similar process described above. Run `make tests` to create the test suite executable and use `./bin/tests` to run it.
