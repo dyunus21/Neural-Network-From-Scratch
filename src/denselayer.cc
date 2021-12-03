@@ -8,18 +8,27 @@ DenseLayer::DenseLayer(int size, Layer* previous):
   dependencies.push_back(previous);
 }
 
-DenseLayer::DenseLayer(int size, Layer* previous, Util::ActivationFunction a):
+DenseLayer::DenseLayer(int size, Layer* previous, Util::ActivationFunction act):
     Layer(size),
     weights{Weights(previous->getShape()[0] * size)},
     biases{Biases(size)},
-    activation{a} {
+    activation{act} {
+  dependencies.push_back(previous);
+}
+
+DenseLayer::DenseLayer(int size, Layer* previous, Util::ActivationFunction act, Util::Initializer init):
+    Layer(size),
+    weights{Weights(previous->getShape()[0] * size)},
+    biases{Biases(size)},
+    activation{act},
+    initializer{init} {
   dependencies.push_back(previous);
 }
 
 std::vector<Layer*>& DenseLayer::getDependencies() { return dependencies; }
 
 void DenseLayer::initialize() {
-  weights.initialize(Util::Initializer::he, dependencies[0]->getTotalSize(), getTotalSize());
+  weights.initialize(initializer, dependencies[0]->getTotalSize(), getTotalSize());
 }
 
 void DenseLayer::forward_propagate() {

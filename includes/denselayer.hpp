@@ -14,7 +14,8 @@ class DenseLayer : public Layer {
 public:
   DenseLayer() = delete;
   DenseLayer(int size, Layer* previous);
-  DenseLayer(int size, Layer* previous, Util::ActivationFunction a);
+  DenseLayer(int size, Layer* previous, Util::ActivationFunction act);
+  DenseLayer(int size, Layer* previous, Util::ActivationFunction act, Util::Initializer init);
 
   void initialize();
   void forward_propagate();
@@ -25,6 +26,7 @@ public:
 
 private:
   Util::ActivationFunction activation = Util::ActivationFunction::none;
+  Util::Initializer initializer = Util::Initializer::xavier;
   std::vector<Layer*> dependencies;
   Weights weights;
   Biases biases;
