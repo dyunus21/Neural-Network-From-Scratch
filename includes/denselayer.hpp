@@ -22,7 +22,7 @@ public:
   void backward_propagate();
   void update(Optimizer& optimizer);
 
-  std::vector<Layer*>& getDependencies();
+  std::vector<Layer*> getDependencies();
 
 private:
   Util::ActivationFunction activation = Util::ActivationFunction::none;

@@ -26,6 +26,7 @@ public:
   Node* getPostActivationNodes();
   std::vector<int> getShape() const;
   int getTotalSize() const;
+  virtual std::vector<Layer*> getDependencies() = 0;
 
   void printValues() const;
 

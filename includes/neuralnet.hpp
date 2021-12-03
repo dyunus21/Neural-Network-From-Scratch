@@ -16,7 +16,11 @@ public:
   void train();
 
 private:
-  std::vector<Layer*> layers;
+  Layer* input;
+  Layer* output;
+  std::vector<Layer*> layer_order;
+
+  std::vector<Layer*> gather_layers(Layer* output_layer);
 };
 
 #endif

@@ -25,7 +25,7 @@ DenseLayer::DenseLayer(int size, Layer* previous, Util::ActivationFunction act, 
   dependencies.push_back(previous);
 }
 
-std::vector<Layer*>& DenseLayer::getDependencies() { return dependencies; }
+std::vector<Layer*> DenseLayer::getDependencies() { return dependencies; }
 
 void DenseLayer::initialize() {
   weights.initialize(initializer, dependencies[0]->getTotalSize(), getTotalSize());
