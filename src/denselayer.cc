@@ -48,12 +48,7 @@ void DenseLayer::forward_propagate() {
   }
 
   // apply activation function
-  std::vector<Node*> to_activate;
-  for (int i = 0; i < getTotalSize(); i++) {
-    postActivationNodes[i] = preActivationNodes[i];
-    to_activate.push_back(&(postActivationNodes[i]));
-  }
-  Util::activate(activation, to_activate);
+  Util::forward_activate(activation, preActivationNodes, postActivationNodes, shape);
 }
 
 void DenseLayer::backward_propagate() {
