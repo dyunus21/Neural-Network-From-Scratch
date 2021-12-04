@@ -47,11 +47,19 @@ void DenseLayer::forward_propagate() {
     biases.forward_apply(&preActivationNodes[i], i);
   }
 
-  // apply activation function
+  // activations
   Util::forward_activate(activation, preActivationNodes, postActivationNodes, shape);
 }
 
 void DenseLayer::backward_propagate() {
+  // activations
+  Util::backward_activate(activation, preActivationNodes, postActivationNodes, shape);
+
+  // biases
+  for (int i = 0; i < getTotalSize(); i++) {
+    biases.reverse_apply(&preActivationNodes[i], i);
+  }
+
   // weights
   for (int i = 0; i < getTotalSize(); i++) {  // loop thru current layer
     for (int j = 0; j < dependencies.at(0)->getTotalSize();
@@ -60,11 +68,6 @@ void DenseLayer::backward_propagate() {
                             &preActivationNodes[i],
                             i * dependencies.at(0)->getTotalSize() + j);
     }
-  }
-
-  // biases
-  for (int i = 0; i < getTotalSize(); i++) {
-    biases.reverse_apply(&preActivationNodes[i], i);
   }
 }
 
