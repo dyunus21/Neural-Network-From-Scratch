@@ -40,10 +40,35 @@ TEST_CASE("forward Activate relu") {
   Util::forward_activate(
       Util::ActivationFunction::relu, input, actualPost, shape);
 
-  REQUIRE(expectedPost[0] == actualPost[0]);
-  REQUIRE(expectedPost[1] == actualPost[1]);
-  REQUIRE(expectedPost[2] == actualPost[2]);
+  for (size_t i = 0; i < 3; i++) {
+    REQUIRE(expectedPost[i] == actualPost[i]);
+  }
 }
+
+TEST_CASE("backward Activate relu") {
+  Node* input = new Node[3];
+  Node* expectedPost = new Node[3];
+  Node* actualPost = new Node[3];
+
+  std::vector<int> shape;
+  shape.push_back(3);
+
+  input[0] = {-5.4, 0};
+  input[1] = {0, 0};
+  input[2] = {3.14, 0};
+
+  expectedPost[0] = {0, 0};
+  expectedPost[1] = {0, 0};
+  expectedPost[2] = {3.14, 0};
+
+  Util::forward_activate(
+      Util::ActivationFunction::relu, input, actualPost, shape);
+
+  for (size_t i = 0; i < 3; i++) {
+    REQUIRE(expectedPost[i] == actualPost[i]);
+  }
+}
+
 TEST_CASE("forward activate softmax") {
   Node* input = new Node[3];
   Node* expectedPost = new Node[3];
@@ -63,12 +88,11 @@ TEST_CASE("forward activate softmax") {
   Util::forward_activate(
       Util::ActivationFunction::softmax, input, actualPost, shape);
 
-  REQUIRE(expectedPost[0] == actualPost[0]);
-  REQUIRE(expectedPost[1] == actualPost[1]);
-  REQUIRE(expectedPost[2] == actualPost[2]);
+  for (size_t i = 0; i < 3; i++) {
+    REQUIRE(expectedPost[i] == actualPost[i]);
+  }
 }
-TEST_CASE("forward activate none")
-{
+TEST_CASE("forward activate none") {
   Node* input = new Node[3];
   Node* expectedPost = new Node[3];
   Node* actualPost = new Node[3];
@@ -80,10 +104,9 @@ TEST_CASE("forward activate none")
   expectedPost[0] = {1, 0};
   expectedPost[1] = {0, 0};
   expectedPost[2] = {3.14, 0};
-  Util::forward_activate(Util::ActivationFunction::softmax, input, actualPost, shape);
-  for(size_t i = 0;i<3; i++)
-  {
+  Util::forward_activate(
+      Util::ActivationFunction::softmax, input, actualPost, shape);
+  for (size_t i = 0; i < 3; i++) {
     REQUIRE(expectedPost[i] == actualPost[i]);
   }
-  
 }
