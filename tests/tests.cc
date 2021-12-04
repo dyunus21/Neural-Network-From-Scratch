@@ -105,7 +105,7 @@ TEST_CASE("forward activate none") {
   expectedPost[1] = {0, 0};
   expectedPost[2] = {3.14, 0};
   Util::forward_activate(
-      Util::ActivationFunction::softmax, input, actualPost, shape);
+      Util::ActivationFunction::none, input, actualPost, shape);
   for (size_t i = 0; i < 3; i++) {
     REQUIRE(expectedPost[i] == actualPost[i]);
   }
