@@ -20,6 +20,7 @@ public:
   void initialize();
   void forward_propagate();
   void backward_propagate();
+  void deep_clear();
   void update(Optimizer& optimizer);
 
   std::vector<Layer*> getDependencies();

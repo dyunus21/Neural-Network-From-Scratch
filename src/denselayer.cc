@@ -71,6 +71,12 @@ void DenseLayer::backward_propagate() {
   }
 }
 
+void DenseLayer::deep_clear() {
+  clear();
+  weights.clearGradients();
+  biases.clearGradients();
+}
+
 void DenseLayer::update(Optimizer& optimizer) {
   weights.update(optimizer);
   biases.update(optimizer);
