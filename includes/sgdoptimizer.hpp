@@ -1,7 +1,9 @@
 #ifndef SGD_OPTIMIZER_HPP
 #define SGD_OPTIMIZER_HPP
 
-class SGDOptimizer {
+#include "optimizer.hpp"
+
+class SGDOptimizer : Optimizer {
     public:
         SGDOptimizer(float learning_rate);
         void optimize(float* weights, float* gradients, int size);

@@ -23,7 +23,7 @@ void Layer::deep_clear() {
   clear();
 }
 
-void Layer::update(Optimizer& optimizer) {}
+void Layer::update(Optimizer* optimizer) {}
 
 Node* Layer::getPreActivationNodes() { return preActivationNodes; }
 
