@@ -69,16 +69,14 @@ void Util::backward_activate(ActivationFunction activationFunction, Node* preAct
 }
 
 // utility function that calculates loss using least squared
-void Util::loss(std::vector<Node*> expected, std::vector<Node*> actual, Node* loss) {
-  if (expected.size() != actual.size()) {
-    throw std::runtime_error(
-        "Loss function needs identical dimensional layers");
+float Util::loss(float* expected, Node* output, int numNodes) {
+  float loss = 0;
+  for (size_t i = 0; i < numNodes; i++) {
+    float d = output[i].value - expected[i];
+    output[i].gradient = -2.*d;
+    loss += d*d;
   }
-  float loss_ = 0;
-  for (size_t i = 0; i < expected.size(); i++) {
-    loss_ += pow(expected.at(i)->value - actual.at(i)->value, 2);
-  }
-  loss->value = loss_;
+  return loss;
 }
 
 float Util::relu(float x) {
