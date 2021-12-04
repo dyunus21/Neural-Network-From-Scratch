@@ -67,3 +67,23 @@ TEST_CASE("forward activate softmax") {
   REQUIRE(expectedPost[1] == actualPost[1]);
   REQUIRE(expectedPost[2] == actualPost[2]);
 }
+TEST_CASE("forward activate none")
+{
+  Node* input = new Node[3];
+  Node* expectedPost = new Node[3];
+  Node* actualPost = new Node[3];
+  std::vector<int> shape;
+  shape.push_back(3);
+  input[0] = {1, 0};
+  input[1] = {0, 0};
+  input[2] = {3.14, 0};
+  expectedPost[0] = {1, 0};
+  expectedPost[1] = {0, 0};
+  expectedPost[2] = {3.14, 0};
+  Util::forward_activate(Util::ActivationFunction::softmax, input, actualPost, shape);
+  for(size_t i = 0;i<3; i++)
+  {
+    REQUIRE(expectedPost[i] == actualPost[i]);
+  }
+  
+}
