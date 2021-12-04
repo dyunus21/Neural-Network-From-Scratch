@@ -13,7 +13,7 @@ namespace Util {
   enum class ActivationFunction { none, relu, softmax };
   void forward_activate(ActivationFunction activationFunction, Node* preActivationNodes, Node* postActivationNodes, std::vector<int>& shape);
   void backward_activate(ActivationFunction activationFunction, Node* preActivationNodes, Node* postActivationNodes, std::vector<int>& shape);
-  void loss(std::vector<Node*> expected, std::vector<Node*> actual, Node* loss);
+  float Util::loss(float* expected, Node* output, int numNodes);
   float relu(float value);
 
   enum class Initializer { xavier, he };

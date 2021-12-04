@@ -19,6 +19,10 @@ void Layer::clear() {
   std::memset(postActivationNodes, 0, getTotalSize() * sizeof(Node));
 }
 
+void Layer::deep_clear() {
+  clear();
+}
+
 void Layer::update(Optimizer& optimizer) {}
 
 Node* Layer::getPreActivationNodes() { return preActivationNodes; }
