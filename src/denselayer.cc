@@ -77,7 +77,7 @@ void DenseLayer::deep_clear() {
   biases.clearGradients();
 }
 
-void DenseLayer::update(Optimizer& optimizer) {
+void DenseLayer::update(Optimizer* optimizer) {
   weights.update(optimizer);
   biases.update(optimizer);
 }

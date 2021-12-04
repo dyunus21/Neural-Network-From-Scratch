@@ -60,8 +60,8 @@ void Weights::initialize(Util::Initializer initializer,
   }
 }
 
-void Weights::update(Optimizer& optimizer) {
-  optimizer.optimize(weights, gradients, size);
+void Weights::update(Optimizer* optimizer) {
+  optimizer->optimize(weights, gradients, size);
 }
 
 void Weights::clearGradients() {

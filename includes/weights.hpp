@@ -20,7 +20,7 @@ public:
   void reverse_apply(Node* n1, Node* n2, int idx);
 
   void initialize(Util::Initializer initializer, int fan_in, int fan_out);
-  void update(Optimizer& optimizer);
+  void update(Optimizer* optimizer);
   void clearGradients();
 
 private:

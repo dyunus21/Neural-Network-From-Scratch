@@ -18,7 +18,7 @@ public:
   void forward_apply(Node* n, int idx);
   void reverse_apply(Node* n, int idx);
 
-  void update(Optimizer& optimizer);
+  void update(Optimizer* optimizer);
   void clearGradients();
 
 private:
