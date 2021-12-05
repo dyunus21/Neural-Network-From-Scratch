@@ -53,7 +53,7 @@ void Util::backward_activate(ActivationFunction activationFunction, Node* preAct
   }
   case ActivationFunction::softmax: { // It took me a while to work out the math for this
     for (size_t i = 0; i < numNodes; i++) {
-      for (size_t j = 0; j < numNodes; i++) {
+      for (size_t j = 0; j < numNodes; j++) {
         if (i == j) {
           preActivationNodes[i].gradient += postActivationNodes[j].gradient * postActivationNodes[j].value * (1. - postActivationNodes[i].value);
         }
@@ -103,4 +103,14 @@ float Util::initialize(Util::Initializer initializer, int fan_in, int fan_out) {
     return randomFloat() * std::sqrt(6. / float(fan_in + fan_out));
   else if (initializer == Util::Initializer::he)
     return randomFloat() * std::sqrt(6. / float(fan_in));
+  return 0.;
+}
+
+std::ostream& operator<<(std::ostream& os, std::vector<float> vec) {
+  os << "[ ";
+  for (float f : vec) {
+    os << f << " ";
+  }
+  os << "]";
+  return os;
 }

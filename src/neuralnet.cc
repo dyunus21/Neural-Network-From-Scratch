@@ -1,5 +1,6 @@
 #include "neuralnet.hpp"
 
+#include "layer.hpp"
 #include <set>
 #include <unordered_map>
 #include <stack>
@@ -7,10 +8,10 @@
 #include <stdexcept>
 #include <algorithm>
 
-NeuralNet::NeuralNet(Layer* input, Layer* output, Optimizer* optimizer) : input(input), output(output), optimizer(optimizer) {
+NeuralNet::NeuralNet(InputLayer* input, Layer* output, Optimizer* optimizer) : input(input), output(output), optimizer(optimizer) {
     // performs a topological sort of the layers
 
-    std::vector<Layer*> layers = gather_layers(output);
+    std::vector<Layer*> layers = gatherLayers(output);
     for (Layer* l : layers) {
         if (l->getDependencies().size() == 0 && l != input) {
             throw std::runtime_error{"Dangling layer"};
@@ -48,7 +49,13 @@ NeuralNet::NeuralNet(Layer* input, Layer* output, Optimizer* optimizer) : input(
     std::reverse(layerOrder.begin(), layerOrder.end());
 }
 
-std::vector<Layer*> NeuralNet::gather_layers(Layer* output_layer) {
+void NeuralNet::initialize() {
+    for (Layer* l : layerOrder) {
+        l->initialize();
+    }
+}
+
+std::vector<Layer*> NeuralNet::gatherLayers(Layer* output_layer) {
     std::set<Layer*> layer_set;
     std::stack<Layer*> stack;
     stack.push(output_layer);
@@ -67,15 +74,34 @@ std::vector<Layer*> NeuralNet::gather_layers(Layer* output_layer) {
     return std::vector<Layer*>{layer_set.begin(), layer_set.end()};
 }
 
-void NeuralNet::propagate(float* inputs, float* expected) {
+std::vector<float> NeuralNet::predict(float* inputs) {
+    // clear layer nodes
     for (Layer* l : layerOrder) {
         l->clear();
     }
 
     // feed inputs into input layer
-    for (int i=0; i<input->getTotalSize(); i++) {
-        input->getPostActivationNodes()[i].value = inputs[i];
+    input->setValues(inputs);
+
+    for (auto itr = layerOrder.begin(); itr != layerOrder.end(); itr++) {
+        (*itr)->forward_propagate();
     }
+
+    std::vector<float> ret;
+    for (int i=0; i<output->getTotalSize(); i++) {
+        ret.push_back(output->getPostActivationNodes()[i].value);
+    }
+    return ret;
+}
+
+void NeuralNet::propagate(float* inputs, float* expected) {
+    // clear layer nodes
+    for (Layer* l : layerOrder) {
+        l->clear();
+    }
+
+    // feed inputs into input layer
+    input->setValues(inputs);
 
     for (auto itr = layerOrder.begin(); itr != layerOrder.end(); itr++) {
         (*itr)->forward_propagate();
@@ -92,8 +118,12 @@ void NeuralNet::update() {
     }
 }
 
-void NeuralNet::deep_clear() {
+void NeuralNet::deepClear() {
     for (Layer* l : layerOrder) {
-        l->deep_clear();
+        l->deepClear();
     }
+}
+
+float NeuralNet::getLoss() {
+    return loss;
 }

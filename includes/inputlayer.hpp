@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "layer.hpp"
+#include <vector>
 
 /**
  * Represents a 1D input layer of a neural network
@@ -16,6 +17,7 @@ public:
   void initialize();
   void forward_propagate();
   void backward_propagate();
+  std::vector<Layer*> getDependencies();
 
   void setValues(float* values);
 };

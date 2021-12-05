@@ -3,7 +3,7 @@
 
 #include "optimizer.hpp"
 
-class SGDOptimizer : Optimizer {
+class SGDOptimizer : public Optimizer {
     public:
         SGDOptimizer(float learning_rate);
         void optimize(float* weights, float* gradients, int size);
