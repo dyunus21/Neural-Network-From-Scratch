@@ -8,7 +8,10 @@
 #include <iostream>
 
 #include "node.hpp"
-
+/**
+  * Handles the enum class for Activation Function and Initializer
+  *
+  */
 
 namespace Util {
   enum class ActivationFunction { none, relu, softmax };

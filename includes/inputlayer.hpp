@@ -1,10 +1,7 @@
 #ifndef INPUTLAYER_HPP
 #define INPUTLAYER_HPP
 
-#include <vector>
-
 #include "layer.hpp"
-#include <vector>
 
 /**
  * Represents a 1D input layer of a neural network

@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "layer.hpp"
-#include "optimizer.hpp"
 #include "util.hpp"
 
 /**

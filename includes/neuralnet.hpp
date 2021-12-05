@@ -1,14 +1,10 @@
 #ifndef NEURALNET_HPP
 #define NEURALNET_HPP
 
-#include <vector>
-
-#include "layer.hpp"
 #include "inputlayer.hpp"
-#include "optimizer.hpp"
 
 /**
- *
+ * Trains neural network
  *
  */
 class NeuralNet {
@@ -28,7 +24,6 @@ private:
   float loss;
   Optimizer* optimizer;
   std::vector<Layer*> layerOrder;
-
   std::vector<Layer*> gatherLayers(Layer* output_layer);
 };
 
