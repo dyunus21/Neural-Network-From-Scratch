@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "layer.hpp"
+#include "inputlayer.hpp"
 #include "optimizer.hpp"
 
 /**
@@ -13,19 +14,22 @@
 class NeuralNet {
 public:
   NeuralNet() = delete;
-  NeuralNet(Layer* input, Layer* output, Optimizer* optimizer);
-  void propagate(float* input, float* output);
+  NeuralNet(InputLayer* input, Layer* output, Optimizer* optimizer);
+  void initialize();
+  std::vector<float> predict(float* inputs);
+  void propagate(float* input, float* expected);
   void update();
-  void deep_clear();
+  void deepClear();
+  float getLoss();
 
 private:
-  Layer* input;
+  InputLayer* input;
   Layer* output;
   float loss;
   Optimizer* optimizer;
   std::vector<Layer*> layerOrder;
 
-  std::vector<Layer*> gather_layers(Layer* output_layer);
+  std::vector<Layer*> gatherLayers(Layer* output_layer);
 };
 
 #endif

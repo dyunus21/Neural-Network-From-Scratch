@@ -19,7 +19,7 @@ void Layer::clear() {
   std::memset(postActivationNodes, 0, getTotalSize() * sizeof(Node));
 }
 
-void Layer::deep_clear() {
+void Layer::deepClear() {
   clear();
 }
 

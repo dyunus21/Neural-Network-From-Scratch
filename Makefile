@@ -1,6 +1,6 @@
 CXX=clang++
 CXX_FLAGS=-std=c++20 -O3 -Iincludes/
-DEBUG_FLAGS=-std=c++20 -g -O0 -Wall -Wextra -Werror -Iincludes/
+DEBUG_FLAGS=-std=c++20 -g -O0 -Wall -Wextra -Iincludes/
 
 MAKE_BIN := mkdir -p bin
 SOURCES := $(wildcard src/*.cc)

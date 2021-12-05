@@ -20,7 +20,7 @@ public:
   virtual void forward_propagate() = 0;
   virtual void backward_propagate() = 0;
   virtual void clear();
-  virtual void deep_clear();
+  virtual void deepClear();
   virtual void update(Optimizer* optimizer);
 
   Node* getPreActivationNodes();

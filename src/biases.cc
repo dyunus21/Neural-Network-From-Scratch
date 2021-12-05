@@ -11,6 +11,8 @@
 Biases::Biases(int size): size(size) {
   biases = new float[size];
   gradients = new float[size];
+  std::memset(biases, 0, size * sizeof(float));
+  std::memset(gradients, 0, size * sizeof(float));
 }
 
 Biases::~Biases() {
