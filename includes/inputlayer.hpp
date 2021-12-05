@@ -19,8 +19,6 @@ public:
   void backward_propagate();
   std::vector<Layer*> getDependencies();
 
-  std::vector<Layer*> getDependencies();
-
   void setValues(float* values);
 };
 
