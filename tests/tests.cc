@@ -46,26 +46,30 @@ TEST_CASE("forward Activate relu") {
 }
 
 TEST_CASE("backward Activate relu") {
-  Node* input = new Node[3];
-  Node* expectedPost = new Node[3];
-  Node* actualPost = new Node[3];
+  Node* post = new Node[3];
+  Node* expectedPre = new Node[3];
+  Node* actualPre = new Node[3];
 
   std::vector<int> shape;
   shape.push_back(3);
 
-  input[0] = {-5.4, 0};
-  input[1] = {0, 0};
-  input[2] = {3.14, 0};
+  post[0] = {0, 3};
+  post[1] = {0, 6};
+  post[2] = {3.14, 9};
 
-  expectedPost[0] = {0, 0};
-  expectedPost[1] = {0, 0};
-  expectedPost[2] = {3.14, 0};
+  expectedPre[0] = {-5.4, 0};
+  expectedPre[1] = {0, 0};
+  expectedPre[2] = {3.14, 9};
 
-  Util::forward_activate(
-      Util::ActivationFunction::relu, input, actualPost, shape);
+  actualPre[0] = {-5.4, 0};
+  actualPre[1] = {0, 0};
+  actualPre[2] = {3.14, 0};
+
+  Util::backward_activate(
+      Util::ActivationFunction::relu, actualPre, post, shape);
 
   for (size_t i = 0; i < 3; i++) {
-    REQUIRE(expectedPost[i] == actualPost[i]);
+    REQUIRE(expectedPre[i] == actualPre[i]);
   }
 }
 
