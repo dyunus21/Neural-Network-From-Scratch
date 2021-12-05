@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <iostream>
 
 /**
  * Initializes size, weights, and gradients
@@ -34,7 +33,6 @@ int Weights::getSize() { return size; }
  * @param idx
  */
 void Weights::forward_apply(Node* n1, Node* n2, int idx) {
-  std::cout << "Applying weight from " << n1->value << " to " << n2->value << std::endl;
   n2->value += n1->value * weights[idx];
 }
 
