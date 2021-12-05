@@ -13,10 +13,12 @@ class InputLayer : public Layer {
 public:
   InputLayer() = delete;
   InputLayer(int size);
-  
+
   void initialize();
   void forward_propagate();
   void backward_propagate();
+  std::vector<Layer*> getDependencies();
+
   std::vector<Layer*> getDependencies();
 
   void setValues(float* values);
