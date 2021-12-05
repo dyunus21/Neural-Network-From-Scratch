@@ -1,17 +1,17 @@
 #include "neuralnet.hpp"
 
-<<<<<<< HEAD
 #include <algorithm>
-#  include <queue>
-=======
-#  include "layer.hpp"
->>>>>>> b9c9fdd1a935e8adba846a9757771b1215398aa2
+#include <queue>
 #include <set>
 #include <stack>
 #include <stdexcept>
 #include <unordered_map>
 
-NeuralNet::NeuralNet(InputLayer* input, Layer* output, Optimizer* optimizer) : input(input), output(output), optimizer(optimizer) {
+#include "layer.hpp"
+
+
+NeuralNet::NeuralNet(InputLayer* input, Layer* output, Optimizer* optimizer):
+    input(input), output(output), optimizer(optimizer) {
   // performs a topological sort of the layers
 
   std::vector<Layer*> layers = gatherLayers(output);
@@ -20,37 +20,36 @@ NeuralNet::NeuralNet(InputLayer* input, Layer* output, Optimizer* optimizer) : i
       throw std::runtime_error{"Dangling layer"};
     }
   }
-}
 
-std::unordered_map<Layer*, int> degree;
-for (Layer* l : layers) {
-  for (Layer* d : l->getDependencies()) {
-    degree[d]++;
-  }
-}
-
-std::queue<Layer*> queue;
-for (Layer* l : layers) {
-  if (degree[l] == 0) {
-    queue.push(l);
-  }
-}
-
-while (!queue.empty()) {
-  Layer* l = queue.front();
-  queue.pop();
-  layerOrder.push_back(l);
-  for (Layer* d : l->getDependencies()) {
-    degree[d]--;
-    if (degree[d] == 0) {
-      if (d != input) queue.push(d);
-    } else if (degree[d] < 0) {
-      throw std::runtime_error{"Neural network has a cycle"};
+  std::unordered_map<Layer*, int> degree;
+  for (Layer* l : layers) {
+    for (Layer* d : l->getDependencies()) {
+      degree[d]++;
     }
   }
-}
 
-std::reverse(layerOrder.begin(), layerOrder.end());
+  std::queue<Layer*> queue;
+  for (Layer* l : layers) {
+    if (degree[l] == 0) {
+      queue.push(l);
+    }
+  }
+
+  while (!queue.empty()) {
+    Layer* l = queue.front();
+    queue.pop();
+    layerOrder.push_back(l);
+    for (Layer* d : l->getDependencies()) {
+      degree[d]--;
+      if (degree[d] == 0) {
+        if (d != input) queue.push(d);
+      } else if (degree[d] < 0) {
+        throw std::runtime_error{"Neural network has a cycle"};
+      }
+    }
+  }
+
+  std::reverse(layerOrder.begin(), layerOrder.end());
 }
 
 void NeuralNet::initialize() {
@@ -74,9 +73,8 @@ std::vector<Layer*> NeuralNet::gatherLayers(Layer* output_layer) {
       stack.push(d);
     }
   }
-}
 
-return std::vector<Layer*>{layer_set.begin(), layer_set.end()};
+  return std::vector<Layer*>{layer_set.begin(), layer_set.end()};
 }
 
 std::vector<float> NeuralNet::predict(float* inputs) {
