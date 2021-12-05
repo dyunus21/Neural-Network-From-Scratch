@@ -11,6 +11,8 @@
 Weights::Weights(int size): size(size) {
   weights = new float[size];
   gradients = new float[size];
+  std::memset(weights, 0, size * sizeof(float));
+  std::memset(gradients, 0, size * sizeof(float));
 }
 
 Weights::~Weights() {
