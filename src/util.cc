@@ -8,30 +8,29 @@ void Util::forward_activate(ActivationFunction activationFunction, Node* preActi
   int numNodes = shape[0];
   for (int i=1; i<shape.size(); i++) numNodes *= shape[i];
   switch (activationFunction) {
-  case ActivationFunction::none: {
-    for (size_t i = 0; i < numNodes; i++) {
-      postActivationNodes[i].value = preActivationNodes[i].value;
+    case ActivationFunction::none: {
+      for (size_t i = 0; i < numNodes; i++) {
+        postActivationNodes[i].value = preActivationNodes[i].value;
+      }
+      break;
     }
-    break;
-  }
-  case ActivationFunction::relu: {
-    for (size_t i = 0; i < numNodes; i++) {
-      postActivationNodes[i].value = preActivationNodes[i].value > 0 ? preActivationNodes[i].value : 0;
+    case ActivationFunction::relu: {
+      for (size_t i = 0; i < numNodes; i++) {
+        postActivationNodes[i].value = preActivationNodes[i].value > 0 ? preActivationNodes[i].value : 0;
+      }
+      break;
     }
-    break;
-  }
-  case ActivationFunction::softmax: {
-    float sumOfExponentials = 0;
-    for (size_t i = 0; i < numNodes; i++) {
-      postActivationNodes[i].value = exp(preActivationNodes[i].value);
-      sumOfExponentials += postActivationNodes[i].value;
+    case ActivationFunction::softmax: {
+      float sumOfExponentials = 0;
+      for (size_t i = 0; i < numNodes; i++) {
+        postActivationNodes[i].value = exp(preActivationNodes[i].value);
+        sumOfExponentials += postActivationNodes[i].value;
+      }
+      for (size_t i = 0; i < numNodes; i++) {
+        postActivationNodes[i].value /= sumOfExponentials;
+      }
+      break;
     }
-
-    for (size_t i = 0; i < numNodes; i++) {
-      postActivationNodes[i].value /= sumOfExponentials;
-    }
-    break;
-  }
   }
 }
 
@@ -39,32 +38,31 @@ void Util::backward_activate(ActivationFunction activationFunction, Node* preAct
   int numNodes = shape[0];
   for (int i=1; i<shape.size(); i++) numNodes *= shape[i];
   switch (activationFunction) {
-  case ActivationFunction::none: {
-    for (size_t i = 0; i < numNodes; i++) {
-      postActivationNodes[i].gradient = postActivationNodes[i].gradient;
+    case ActivationFunction::none: {
+      for (size_t i = 0; i < numNodes; i++) {
+        postActivationNodes[i].gradient = postActivationNodes[i].gradient;
+      }
+      break;
     }
-    break;
-  }
-  case ActivationFunction::relu: {
-    for (size_t i = 0; i < numNodes; i++) {
-      preActivationNodes[i].gradient = preActivationNodes[i].value > 0 ? postActivationNodes[i].gradient : 0;
+    case ActivationFunction::relu: {
+      for (size_t i = 0; i < numNodes; i++) {
+        preActivationNodes[i].gradient = preActivationNodes[i].value > 0 ? postActivationNodes[i].gradient : 0;
+      }
+      break;
     }
-    break;
-  }
-  case ActivationFunction::softmax: { // It took me a while to work out the math for this
-    for (size_t i = 0; i < numNodes; i++) {
-      for (size_t j = 0; j < numNodes; j++) {
-        if (i == j) {
-          preActivationNodes[i].gradient += postActivationNodes[j].gradient * postActivationNodes[j].value * (1. - postActivationNodes[i].value);
-        }
-        else {
-          preActivationNodes[i].gradient -= postActivationNodes[j].gradient * postActivationNodes[i].value * postActivationNodes[j].value;
+    case ActivationFunction::softmax: { // It took me a while to work out the math for this
+      for (size_t i = 0; i < numNodes; i++) {
+        for (size_t j = 0; j < numNodes; j++) {
+          if (i == j) {
+            preActivationNodes[i].gradient += postActivationNodes[j].gradient * postActivationNodes[j].value * (1. - postActivationNodes[i].value);
+          }
+          else {
+            preActivationNodes[i].gradient -= postActivationNodes[j].gradient * postActivationNodes[i].value * postActivationNodes[j].value;
+          }
         }
       }
+      break;
     }
-
-    break;
-  }
   }
 }
 
@@ -94,7 +92,7 @@ float Util::randomFloat() {
  * Creates an random weight value based on a certain initialization scheme
  *
  * @param initializer the type of initialization
- * @param fan_in The number of notes going into an output node
+ * @param fan_in The number of nodes going into an output node
  * @param fan_out The number of output nodes that an input node feeds into
  * @return float
  */

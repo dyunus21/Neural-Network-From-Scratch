@@ -6,6 +6,10 @@
 #include <stdexcept>
 #include <iostream>
 
+/*
+ * Handles reading and storing binary format dataset into 2D arrays
+ */
+
 class Reader {
 public:
     Reader(int numlabels, int numImages,int imageSize);

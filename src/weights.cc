@@ -50,8 +50,6 @@ void Weights::reverse_apply(Node* n1, Node* n2, int idx) {
   n1->gradient += n2->gradient * weights[idx];
 }
 
-// TODO
-
 void Weights::initialize(Util::Initializer initializer,
                          int fan_in,
                          int fan_out) {

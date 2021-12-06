@@ -4,7 +4,7 @@
 #include "inputlayer.hpp"
 
 /**
- * Trains neural network
+ * Trains and optimizes neural network using input and output layers
  *
  */
 class NeuralNet {

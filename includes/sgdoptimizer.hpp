@@ -4,7 +4,7 @@
 #include "optimizer.hpp"
 
 /*
- * Stochastic Gradient Descent Optimizer using provided learning rate
+ * Stochastic Gradient Descent Optimizer utilizing provided learning rate
  */
 
 class SGDOptimizer : public Optimizer {

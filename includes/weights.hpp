@@ -1,7 +1,6 @@
 #ifndef WEIGHTS_HPP
 #define WEIGHTS_HPP
 
-#include "node.hpp"
 #include "util.hpp"
 #include "optimizer.hpp"
 
