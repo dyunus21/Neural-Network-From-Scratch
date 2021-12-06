@@ -6,7 +6,7 @@
 #include "neuralnet.hpp"
 #include "reader.hpp"
 #include "util.hpp"
-
+#include "iostream"
 // equals operator for node, allows some level of imprecision to account for
 // floating point approximation
 bool operator==(Node a, Node b) {
@@ -19,6 +19,13 @@ bool operator==(Node a, Node b) {
                   std::fabs(a.gradient + b.gradient) * 2 ||
           std::fabs(a.gradient - b.gradient) <
               std::numeric_limits<float>::min());
+}
+bool value_equal_to_float(float a, Node b)
+{
+  return (std::fabs(a- b.value) <=
+              std::numeric_limits<float>::epsilon() *
+                  std::fabs(a+ b.value) * 2 ||
+          std::fabs(a - b.value) < std::numeric_limits<float>::min());
 }
 
 TEST_CASE("forward Activate relu") {
@@ -137,4 +144,30 @@ TEST_CASE("backwards activate softmax")
     REQUIRE(expectedPost[i] == actualPost[i]);
   }
 }
-
+TEST_CASE("loss function")
+{
+  Node* input = new Node[3];
+  input[0] = {1, 0};
+  input[1] = {0, 0};
+  input[2] = {3, 0};
+  float* expected = new float[3];
+  expected[0] = 0.9;
+  expected[1] = 0.2;
+  expected[2] = 3.1;
+  float correct_loss = 0.1*0.1+0.2*0.2+0.1*0.1;
+  float loss = Util::loss(expected, input, 3);
+  bool b = (std::fabs(loss- correct_loss) <=
+              (std::numeric_limits<float>::epsilon() *
+                  std::fabs(loss+ correct_loss) * 2 ))||
+          (std::fabs(loss - correct_loss) < std::numeric_limits<float>::min());
+  //REQUIRE(b);
+  Node* e = new Node[3];
+  e[0] = {1, -2.*0.1};
+  e[1] = {0, -2.*-0.2};
+  e[2] = {3, -2.*-0.1};
+  for(int i = 0;i<3;i++)
+  {
+    //std::cout<< input[i].value<< ", "<< input[i].gradient<< std::endl;
+    //REQUIRE(input[i] == e[i]);
+  }
+}
