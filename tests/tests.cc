@@ -7,6 +7,8 @@
 #include "reader.hpp"
 #include "util.hpp"
 #include "iostream"
+
+//*********************************Helper Functions**********************************************
 // equals operator for node, allows some level of imprecision to account for
 // floating point approximation
 bool operator==(Node a, Node b) {
@@ -28,6 +30,7 @@ bool value_equal_to_float(float a, Node b)
           std::fabs(a - b.value) < std::numeric_limits<float>::min());
 }
 
+//********************************* Test Cases **********************************************
 TEST_CASE("forward Activate relu") {
   Node* input = new Node[3];
   Node* expectedPost = new Node[3];
@@ -234,4 +237,11 @@ TEST_CASE("Reverse apply biases") {
   }
   REQUIRE(biases.getGradients()[0] == 1.);
   REQUIRE(biases.getGradients()[1] == 2.);
+}
+
+TEST_CASE("Random Float test","[RandomFloat]") {
+  for(int i = 0; i<30;i++){
+    float r = Util::randomFloat();
+    REQUIRE((r<1.0 && r>-1.0) == true);
+  }
 }
