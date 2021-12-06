@@ -14,6 +14,8 @@ public:
   Biases(int size);
   ~Biases();
   int getSize();
+  float* getBiases();
+  float* getGradients();
 
   void forward_apply(Node* n, int idx);
   void reverse_apply(Node* n, int idx);

@@ -28,6 +28,24 @@ Biases::~Biases() {
 int Biases::getSize() { return size; }
 
 /**
+ * Returns the array storing the biases
+ * 
+ * @return pointer to the bias array 
+ */
+float* Biases::getBiases() {
+  return biases;
+}
+
+/**
+ * Returns the array storing the gradients
+ * 
+ * @return pointer to the gradient array 
+ */
+float* Biases::getGradients() {
+  return gradients;
+}
+
+/**
  * Applies a bias in the forward direction
  *
  * @param n1

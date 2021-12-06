@@ -171,3 +171,67 @@ TEST_CASE("loss function")
     //REQUIRE(input[i] == e[i]);
   }
 }
+
+TEST_CASE("Forward apply weights") {
+  Node* inputs = new Node[2]();
+  Node* outputs = new Node[2]();
+  inputs[0].value = 1.;
+  inputs[1].value = 2.;
+  Weights weights(4);
+  weights.getWeights()[0] = 1;
+  weights.getWeights()[1] = 2;
+  weights.getWeights()[2] = 3;
+  weights.getWeights()[3] = 4;
+  for (int i=0; i<2; i++) for (int j=0; j<2; j++) {
+    weights.forward_apply(&inputs[j], &outputs[i], i*2+j);
+  }
+  REQUIRE(outputs[0].value == 5.);
+  REQUIRE(outputs[1].value == 11.);
+}
+
+TEST_CASE("Reverse apply weights") {
+  Node* inputs = new Node[2]();
+  Node* outputs = new Node[2]();
+  inputs[0].value = 1.;
+  inputs[1].value = 2.;
+  outputs[0].gradient = 1.;
+  outputs[1].gradient = 2.;
+  Weights weights(4);
+  weights.getWeights()[0] = 1;
+  weights.getWeights()[1] = 2;
+  weights.getWeights()[2] = 3;
+  weights.getWeights()[3] = 4;
+  weights.clearGradients();
+  for (int i=0; i<2; i++) for (int j=0; j<2; j++) {
+    weights.reverse_apply(&inputs[j], &outputs[i], i*2+j);
+  }
+  REQUIRE(inputs[0].gradient == 7.);
+  REQUIRE(inputs[1].gradient == 10.);
+}
+
+TEST_CASE("Forward apply biases") {
+  Node* nodes = new Node[2]();
+  nodes[0].value = 1.;
+  nodes[1].value = 2.;
+  Biases biases(2);
+  biases.getBiases()[0] = 2;
+  biases.getBiases()[1] = 3;
+  for (int i=0; i<2; i++) {
+    biases.forward_apply(&nodes[i], i);
+  }
+  REQUIRE(nodes[0].value == 3.);
+  REQUIRE(nodes[1].value == 5.);
+}
+
+TEST_CASE("Reverse apply biases") {
+  Node* nodes = new Node[2]();
+  nodes[0].gradient = 1.;
+  nodes[1].gradient = 2.;
+  Biases biases(2);
+  biases.clearGradients();
+  for (int i=0; i<2; i++) {
+    biases.reverse_apply(&nodes[i], i);
+  }
+  REQUIRE(biases.getGradients()[0] == 1.);
+  REQUIRE(biases.getGradients()[1] == 2.);
+}

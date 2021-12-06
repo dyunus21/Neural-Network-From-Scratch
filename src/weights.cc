@@ -28,6 +28,24 @@ Weights::~Weights() {
 int Weights::getSize() { return size; }
 
 /**
+ * Returns the array storing the weights
+ * 
+ * @return pointer to the weight array 
+ */
+float* Weights::getWeights() {
+  return weights;
+}
+
+/**
+ * Returns the array storing the gradients
+ * 
+ * @return pointer to the gradient array 
+ */
+float* Weights::getGradients() {
+  return gradients;
+}
+
+/**
  * Applies a weight in the forward direction
  *
  * @param n1
