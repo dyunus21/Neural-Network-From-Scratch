@@ -11,7 +11,7 @@
 
 
 NeuralNet::NeuralNet(InputLayer* input, Layer* output, Optimizer* optimizer):
-    input(input), output(output), optimizer(optimizer) {
+    input(input), output(output), optimizer(optimizer), loss(0) {
   // performs a topological sort of the layers
 
   std::vector<Layer*> layers = gatherLayers(output);
@@ -109,7 +109,7 @@ void NeuralNet::propagate(float* inputs, float* expected) {
   for (auto itr = layerOrder.begin(); itr != layerOrder.end(); itr++) {
     (*itr)->forward_propagate();
   }
-  loss = Util::loss(
+  loss += Util::loss(
       expected, output->getPostActivationNodes(), output->getTotalSize());
   for (auto itr = layerOrder.rbegin(); itr != layerOrder.rend(); itr++) {
     (*itr)->backward_propagate();
@@ -124,6 +124,7 @@ void NeuralNet::update() {
 
 void NeuralNet::deepClear() {
   for (Layer* l : layerOrder) {
+    loss = 0;
     l->deepClear();
   }
 }

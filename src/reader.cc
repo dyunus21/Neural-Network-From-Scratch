@@ -25,7 +25,7 @@ int* Reader::read_mnist_labels(std::string full_path) {
 
         file.read((char *)&number_of_labels, sizeof(number_of_labels)), number_of_labels = reverseInt(number_of_labels);
 
-        int* _dataset = new int[number_of_labels];
+        int* _dataset = new int[number_of_labels]();
         for(int i = 0; i < number_of_labels; i++) {
             file.read((char*)&_dataset[i], 1);
         }

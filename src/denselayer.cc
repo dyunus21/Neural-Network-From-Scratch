@@ -1,6 +1,5 @@
 #include "denselayer.hpp"
 
-
 DenseLayer::DenseLayer(int size, Layer* previous):
     Layer(size),
     weights{Weights(previous->getShape()[0] * size)},

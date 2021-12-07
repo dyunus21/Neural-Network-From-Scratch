@@ -46,7 +46,7 @@ void Util::backward_activate(ActivationFunction activationFunction, Node* preAct
     }
     case ActivationFunction::relu: {
       for (size_t i = 0; i < numNodes; i++) {
-        preActivationNodes[i].gradient = preActivationNodes[i].value > 0 ? postActivationNodes[i].gradient : 0;
+        preActivationNodes[i].gradient = preActivationNodes[i].value >= 0 ? postActivationNodes[i].gradient : 0;
       }
       break;
     }
