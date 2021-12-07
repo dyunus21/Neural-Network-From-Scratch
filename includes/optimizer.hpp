@@ -8,6 +8,7 @@
 class Optimizer {
     public:
         virtual void optimize(float* weights, float* gradients, int size) = 0;
+        virtual ~Optimizer() = default;
         void set_batch_size(int size) { batch_size = size; };
     protected:
         int batch_size = 1;

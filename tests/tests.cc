@@ -4,6 +4,8 @@
 #include "catch.hpp"
 #include "denselayer.hpp"
 #include "neuralnet.hpp"
+#include "optimizer.hpp"
+#include "sgdoptimizer.hpp"
 #include "reader.hpp"
 #include "util.hpp"
 #include "iostream"
@@ -28,6 +30,9 @@ bool value_equal_to_float(float a, Node b)
               std::numeric_limits<float>::epsilon() *
                   std::fabs(a+ b.value) * 2 ||
           std::fabs(a - b.value) < std::numeric_limits<float>::min());
+}
+bool fuzzy_equals(float a, float b) {
+  return std::fabs(a-b) < 0.0001;
 }
 
 //********************************* Test Cases **********************************************
@@ -190,6 +195,9 @@ TEST_CASE("Forward apply weights") {
   }
   REQUIRE(outputs[0].value == 5.);
   REQUIRE(outputs[1].value == 11.);
+
+  delete[] inputs;
+  delete[] outputs;
 }
 
 TEST_CASE("Reverse apply weights") {
@@ -210,6 +218,9 @@ TEST_CASE("Reverse apply weights") {
   }
   REQUIRE(inputs[0].gradient == 7.);
   REQUIRE(inputs[1].gradient == 10.);
+
+  delete[] inputs;
+  delete[] outputs;
 }
 
 TEST_CASE("Forward apply biases") {
@@ -224,6 +235,8 @@ TEST_CASE("Forward apply biases") {
   }
   REQUIRE(nodes[0].value == 3.);
   REQUIRE(nodes[1].value == 5.);
+
+  delete[] nodes;
 }
 
 TEST_CASE("Reverse apply biases") {
@@ -237,6 +250,8 @@ TEST_CASE("Reverse apply biases") {
   }
   REQUIRE(biases.getGradients()[0] == 1.);
   REQUIRE(biases.getGradients()[1] == 2.);
+
+  delete[] nodes;
 }
 
 TEST_CASE("Random Float test","[RandomFloat]") {
@@ -244,4 +259,15 @@ TEST_CASE("Random Float test","[RandomFloat]") {
     float r = Util::randomFloat();
     REQUIRE((r<1.0 && r>-1.0) == true);
   }
+}
+
+TEST_CASE("SGDOptimizer") {
+  Optimizer* optimizer = new SGDOptimizer(0.1);
+  float weights[] = {1.0, 2.0, 3.0};
+  float gradients[] = {1.0, 2.0, 3.0};
+  optimizer->optimize(weights, gradients, 3);
+  REQUIRE(fuzzy_equals(weights[0], 1.1));
+  REQUIRE(fuzzy_equals(weights[1], 2.2));
+  REQUIRE(fuzzy_equals(weights[2], 3.3));
+  delete optimizer;
 }
