@@ -88,14 +88,14 @@ void test_neuralnet() {
     std::cout << "output for [ 1, 1 ]: " << neuralNet.predict(input4) << std::endl;
 
     optimizer->set_batch_size(4);
-    for (int i=0; i<1; i++) {
+    for (int i=0; i<100; i++) {
         neuralNet.propagate(input1, target1);
         neuralNet.propagate(input2, target2);
         neuralNet.propagate(input3, target3);
         neuralNet.propagate(input4, target4);
+        if ((i+1) % 5 == 0) std::cout << "Loss after batch " << i+1 << ": " << neuralNet.getLoss() << std::endl;
         neuralNet.update();
         neuralNet.deepClear();
-        if ((i+1) % 10 == 0) std::cout << "Loss after batch " << i+1 << ": " << neuralNet.getLoss() << std::endl;
     }
 
     std::cout << "output for [ 0, 0 ]: " << neuralNet.predict(input1) << std::endl;
@@ -158,6 +158,7 @@ void test_image_recognition() {
 int main(int argc, char* argv[]) {
     //test_dataset("tests/datasets/t10k-labels-idx1-ubyte", "tests/datasets/t10k-images-idx3-ubyte", 10000);
     test_image_recognition();
+    //test_neuralnet();
 
     return 0;
 }
