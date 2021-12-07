@@ -148,18 +148,13 @@ TEST_CASE("loss function") {
   expected[2] = 3.1;
   float correct_loss = 0.1 * 0.1 + 0.2 * 0.2 + 0.1 * 0.1;
   float loss = Util::loss(expected, input, 3);
-  bool b = (std::fabs(loss - correct_loss) <=
-            (std::numeric_limits<float>::epsilon() *
-             std::fabs(loss + correct_loss) * 2)) ||
-           (std::fabs(loss - correct_loss) < std::numeric_limits<float>::min());
-  // REQUIRE(b);
+  REQUIRE(fuzzy_equals(correct_loss, loss));
   Node* e = new Node[3];
-  e[0] = {1, -2. * 0.1};
-  e[1] = {0, -2. * -0.2};
-  e[2] = {3, -2. * -0.1};
+  e[0] = {1, 2. * 0.1};
+  e[1] = {0, 2. * -0.2};
+  e[2] = {3, 2. * -0.1};
   for (int i = 0; i < 3; i++) {
-    // std::cout<< input[i].value<< ", "<< input[i].gradient<< std::endl;
-    // REQUIRE(input[i] == e[i]);
+    REQUIRE(input[i] == e[i]);
   }
 }
 
@@ -242,7 +237,8 @@ TEST_CASE("Reverse apply biases") {
 TEST_CASE("Random Float test", "[RandomFloat]") {
   for (int i = 0; i < 30; i++) {
     float r = Util::randomFloat();
-    REQUIRE(r <= 1.0 && r >= -1.0);
+    REQUIRE(r <= 1.0);
+    REQUIRE(r >= -1.0);
   }
 }
 
