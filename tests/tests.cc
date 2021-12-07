@@ -3,39 +3,25 @@
 #endif
 #include "catch.hpp"
 #include "denselayer.hpp"
+#include "iostream"
 #include "neuralnet.hpp"
 #include "optimizer.hpp"
-#include "sgdoptimizer.hpp"
 #include "reader.hpp"
+#include "sgdoptimizer.hpp"
 #include "util.hpp"
-#include "iostream"
 
-//*********************************Helper Functions**********************************************
+//*********************************Helper
+// Functions**********************************************
 // equals operator for node, allows some level of imprecision to account for
 // floating point approximation
+bool fuzzy_equals(float a, float b) { return std::fabs(a - b) < 0.0001; }
 bool operator==(Node a, Node b) {
-  return (std::fabs(a.value - b.value) <=
-              std::numeric_limits<float>::epsilon() *
-                  std::fabs(a.value + b.value) * 2 ||
-          std::fabs(a.value - b.value) < std::numeric_limits<float>::min()) &&
-         (std::fabs(a.gradient - b.gradient) <=
-              std::numeric_limits<float>::epsilon() *
-                  std::fabs(a.gradient + b.gradient) * 2 ||
-          std::fabs(a.gradient - b.gradient) <
-              std::numeric_limits<float>::min());
+  return fuzzy_equals(a.value, b.value) && fuzzy_equals(a.gradient, b.gradient);
 }
-bool value_equal_to_float(float a, Node b)
-{
-  return (std::fabs(a- b.value) <=
-              std::numeric_limits<float>::epsilon() *
-                  std::fabs(a+ b.value) * 2 ||
-          std::fabs(a - b.value) < std::numeric_limits<float>::min());
-}
-bool fuzzy_equals(float a, float b) {
-  return std::fabs(a-b) < 0.0001;
-}
+bool value_equal_to_float(float a, Node b) { return fuzzy_equals(a, b.value); }
 
-//********************************* Test Cases **********************************************
+//********************************* Test Cases
+//**********************************************
 TEST_CASE("forward Activate relu") {
   Node* input = new Node[3];
   Node* expectedPost = new Node[3];
@@ -129,8 +115,7 @@ TEST_CASE("forward activate none") {
     REQUIRE(expectedPost[i] == actualPost[i]);
   }
 }
-TEST_CASE("backwards activate softmax")
-{
+TEST_CASE("backwards activate softmax") {
   Node* input = new Node[3];
   Node* expectedPost = new Node[3];
   Node* actualPost = new Node[3];
@@ -146,14 +131,13 @@ TEST_CASE("backwards activate softmax")
   expectedPost[0] = {0, -0.58875};
   expectedPost[1] = {0, -0.568125};
   expectedPost[2] = {0, -0.342};
-  Util::backward_activate(Util::ActivationFunction::softmax, actualPost, input, shape);
-  for(size_t i = 0;i<3;i++)
-  {
+  Util::backward_activate(
+      Util::ActivationFunction::softmax, actualPost, input, shape);
+  for (size_t i = 0; i < 3; i++) {
     REQUIRE(expectedPost[i] == actualPost[i]);
   }
 }
-TEST_CASE("loss function")
-{
+TEST_CASE("loss function") {
   Node* input = new Node[3];
   input[0] = {1, 0};
   input[1] = {0, 0};
@@ -162,21 +146,20 @@ TEST_CASE("loss function")
   expected[0] = 0.9;
   expected[1] = 0.2;
   expected[2] = 3.1;
-  float correct_loss = 0.1*0.1+0.2*0.2+0.1*0.1;
+  float correct_loss = 0.1 * 0.1 + 0.2 * 0.2 + 0.1 * 0.1;
   float loss = Util::loss(expected, input, 3);
-  bool b = (std::fabs(loss- correct_loss) <=
-              (std::numeric_limits<float>::epsilon() *
-                  std::fabs(loss+ correct_loss) * 2 ))||
-          (std::fabs(loss - correct_loss) < std::numeric_limits<float>::min());
-  //REQUIRE(b);
+  bool b = (std::fabs(loss - correct_loss) <=
+            (std::numeric_limits<float>::epsilon() *
+             std::fabs(loss + correct_loss) * 2)) ||
+           (std::fabs(loss - correct_loss) < std::numeric_limits<float>::min());
+  // REQUIRE(b);
   Node* e = new Node[3];
-  e[0] = {1, -2.*0.1};
-  e[1] = {0, -2.*-0.2};
-  e[2] = {3, -2.*-0.1};
-  for(int i = 0;i<3;i++)
-  {
-    //std::cout<< input[i].value<< ", "<< input[i].gradient<< std::endl;
-    //REQUIRE(input[i] == e[i]);
+  e[0] = {1, -2. * 0.1};
+  e[1] = {0, -2. * -0.2};
+  e[2] = {3, -2. * -0.1};
+  for (int i = 0; i < 3; i++) {
+    // std::cout<< input[i].value<< ", "<< input[i].gradient<< std::endl;
+    // REQUIRE(input[i] == e[i]);
   }
 }
 
@@ -190,9 +173,10 @@ TEST_CASE("Forward apply weights") {
   weights.getWeights()[1] = 2;
   weights.getWeights()[2] = 3;
   weights.getWeights()[3] = 4;
-  for (int i=0; i<2; i++) for (int j=0; j<2; j++) {
-    weights.forward_apply(&inputs[j], &outputs[i], i*2+j);
-  }
+  for (int i = 0; i < 2; i++)
+    for (int j = 0; j < 2; j++) {
+      weights.forward_apply(&inputs[j], &outputs[i], i * 2 + j);
+    }
   REQUIRE(outputs[0].value == 5.);
   REQUIRE(outputs[1].value == 11.);
 
@@ -213,9 +197,10 @@ TEST_CASE("Reverse apply weights") {
   weights.getWeights()[2] = 3;
   weights.getWeights()[3] = 4;
   weights.clearGradients();
-  for (int i=0; i<2; i++) for (int j=0; j<2; j++) {
-    weights.reverse_apply(&inputs[j], &outputs[i], i*2+j);
-  }
+  for (int i = 0; i < 2; i++)
+    for (int j = 0; j < 2; j++) {
+      weights.reverse_apply(&inputs[j], &outputs[i], i * 2 + j);
+    }
   REQUIRE(inputs[0].gradient == 7.);
   REQUIRE(inputs[1].gradient == 10.);
 
@@ -230,7 +215,7 @@ TEST_CASE("Forward apply biases") {
   Biases biases(2);
   biases.getBiases()[0] = 2;
   biases.getBiases()[1] = 3;
-  for (int i=0; i<2; i++) {
+  for (int i = 0; i < 2; i++) {
     biases.forward_apply(&nodes[i], i);
   }
   REQUIRE(nodes[0].value == 3.);
@@ -245,7 +230,7 @@ TEST_CASE("Reverse apply biases") {
   nodes[1].gradient = 2.;
   Biases biases(2);
   biases.clearGradients();
-  for (int i=0; i<2; i++) {
+  for (int i = 0; i < 2; i++) {
     biases.reverse_apply(&nodes[i], i);
   }
   REQUIRE(biases.getGradients()[0] == 1.);
@@ -254,10 +239,10 @@ TEST_CASE("Reverse apply biases") {
   delete[] nodes;
 }
 
-TEST_CASE("Random Float test","[RandomFloat]") {
-  for(int i = 0; i<30;i++){
+TEST_CASE("Random Float test", "[RandomFloat]") {
+  for (int i = 0; i < 30; i++) {
     float r = Util::randomFloat();
-    REQUIRE((r<1.0 && r>-1.0) == true);
+    REQUIRE(r <= 1.0 && r >= -1.0);
   }
 }
 
