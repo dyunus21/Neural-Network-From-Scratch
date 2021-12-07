@@ -71,7 +71,7 @@ float Util::loss(float* expected, Node* output, int numNodes) {
   float loss = 0;
   for (size_t i = 0; i < numNodes; i++) {
     float d = output[i].value - expected[i];
-    output[i].gradient = -2.*d;
+    output[i].gradient = 2.*d;
     loss += d*d;
   }
   return loss;

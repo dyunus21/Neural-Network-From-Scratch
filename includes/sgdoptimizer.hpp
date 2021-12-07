@@ -9,11 +9,12 @@
 
 class SGDOptimizer : public Optimizer {
     public:
-        SGDOptimizer(float learning_rate);
+        SGDOptimizer();
+        SGDOptimizer(float learningRate);
         void optimize(float* weights, float* gradients, int size);
 
     private:
-        float learning_rate;
+        float learningRate;
 };
 
 #endif

@@ -14,6 +14,7 @@
 #include "denselayer.hpp"
 #include "optimizer.hpp"
 #include "sgdoptimizer.hpp"
+#include "adamoptimizer.hpp"
 #include "util.hpp"
 
 
@@ -42,9 +43,7 @@ void test_dataset(std::string label_path,
   std::cout << std::endl;
 }
 
-int main(int argc, char* argv[]) {
-    // test_dataset("tests/datasets/t10k-labels-idx1-ubyte", "tests/datasets/t10k-images-idx3-ubyte", 10000);
-
+void test_neuralnet() {
     srand(time(NULL));
 
     InputLayer inputLayer(2);
@@ -52,7 +51,7 @@ int main(int argc, char* argv[]) {
     DenseLayer midLayer2(20, &midLayer1, Util::ActivationFunction::relu);
     DenseLayer outputLayer(4, &inputLayer, Util::ActivationFunction::softmax);
 
-    Optimizer* optimizer = new SGDOptimizer(0.01);
+    Optimizer* optimizer = new AdamOptimizer(0.01);
     NeuralNet neuralNet(&inputLayer, &outputLayer, optimizer);
     neuralNet.initialize();
     std::cout << "Neural network initialized" << std::endl;
@@ -86,6 +85,10 @@ int main(int argc, char* argv[]) {
     std::cout << "output for [ 1, 0 ]: " << neuralNet.predict(input2) << std::endl;
     std::cout << "output for [ 0, 1 ]: " << neuralNet.predict(input3) << std::endl;
     std::cout << "output for [ 1, 1 ]: " << neuralNet.predict(input4) << std::endl;
+}
+
+int main(int argc, char* argv[]) {
+    test_neuralnet();
 
     return 0;
 }
