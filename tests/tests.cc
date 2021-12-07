@@ -251,8 +251,8 @@ TEST_CASE("SGDOptimizer") {
   float weights[] = {1.0, 2.0, 3.0};
   float gradients[] = {1.0, 2.0, 3.0};
   optimizer->optimize(weights, gradients, 3);
-  REQUIRE(fuzzy_equals(weights[0], 1.1));
-  REQUIRE(fuzzy_equals(weights[1], 2.2));
-  REQUIRE(fuzzy_equals(weights[2], 3.3));
+  REQUIRE(fuzzy_equals(weights[0], 0.9));
+  REQUIRE(fuzzy_equals(weights[1], 1.8));
+  REQUIRE(fuzzy_equals(weights[2], 2.7));
   delete optimizer;
 }
